@@ -28,6 +28,7 @@
   ],
   "emoji": "🖼️",
   "title": "Stable Diffusion v2 Image",
+  "iconURL": "https://custom.typingmind.com/assets/plugins/stable-diffusion.webp",
   "openaiSpec": {
     "name": "image_generation_via_stable_diffusion",
     "parameters": {
