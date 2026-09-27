@@ -1,17 +1,3 @@
-function escapeAlt(text) {
-  if (!text) {
-    return '';
-  }
-
-  return text
-    .replace(/\\/g, '\\\\') // backslash first
-    .replace(/\n/g, ' ') // no newlines in alt text
-    .replace(/\[/g, '\\[') // escape [ and ]
-    .replace(/\]/g, '\\]')
-    .replace(/</g, '&lt;') // defensive: HTML-sensitive chars
-    .replace(/>/g, '&gt;');
-}
-
 async function image_generation_via_stable_diffusion(params, userSettings) {
   const { prompt } = params;
   const { stabilityAPIKey, width, height } = userSettings;
@@ -67,6 +53,15 @@ async function generateImageFromStabilityAPI(apiKey, prompt, width, height) {
   }
 
   const data = await response.json();
-  const alt = escapeAlt(prompt);
-  return `![${alt}](data:image/png;base64,${data.artifacts[0].base64})`;
+  return {
+    cards: [
+      {
+        type: 'image',
+        image: {
+          url: `data:image/png;base64,${data.artifacts[0].base64}`,
+          alt: prompt,
+        },
+      },
+    ],
+  };
 }
